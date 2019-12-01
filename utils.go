@@ -2,8 +2,11 @@ package utils
 
 import (
 	"errors"
+	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 //为实现了IEntity的struct设置默认值
@@ -134,4 +137,24 @@ func setDefault(_value reflect.Value, _type reflect.Type) error {
 		}
 	}
 	return nil
+}
+
+//将长id转化为短id 类似于000000000000000062361472->62361472
+func LongIdToSortId(longId string) (int64, error) {
+	str := strings.TrimLeft(longId, "0")
+	return strconv.ParseInt(str, 10, 64)
+}
+
+func SortIdToLongId(sortId int64) string {
+	return fmt.Sprintf("%024s", sortId)
+}
+
+//字符串转化为objectId 如果字符串长度不够则自动补足24位
+func StringToObjectId(strId string) (*primitive.ObjectID, error) {
+	longId := fmt.Sprintf("%024s", strId)
+	objId, err := primitive.ObjectIDFromHex(longId)
+	if err != nil {
+		return nil, err
+	}
+	return &objId, nil
 }
