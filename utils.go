@@ -4,29 +4,30 @@ import (
 	"reflect"
 	"strconv"
 )
-type IEntity struct {
 
-}
 //为实现了IEntity的struct设置默认值
-func (e *IEntity) Default(){
-	SetDefault(reflect.ValueOf(e).Elem(),reflect.TypeOf(e).Elem())
+func Default(entity interface{}){
+	if reflect.ValueOf(entity).Kind() != reflect.Ptr{
+		panic("传入参数必须是指针类型")
+	}
+	setDefault(reflect.ValueOf(entity).Elem(),reflect.TypeOf(entity).Elem())
 }
 //设置默认值函数
-func SetDefault(_value reflect.Value,_type reflect.Type) error{
+func setDefault(_value reflect.Value,_type reflect.Type) error{
 	//不能设置基础类型的指针默认值
 	if _type.Kind() != reflect.Struct{
 		panic("设置默认值的类型必须是struct")
 	}
 	for i:=0;i<_value.NumField();i++{
 		if _value.Field(i).Kind() == reflect.Struct{
-			SetDefault(_value.Field(i),_value.Field(i).Type())
+			setDefault(_value.Field(i),_value.Field(i).Type())
 			continue
 		}
 		if _value.Field(i).Kind() == reflect.Ptr{
 			if _value.Field(i).IsNil() {
 				panic("指针类型的属性不能为nil")
 			}
-			SetDefault(_value.Field(i).Elem(),_value.Field(i).Type().Elem())
+			setDefault(_value.Field(i).Elem(),_value.Field(i).Type().Elem())
 			continue
 		}
 		_default:=_type.Field(i).Tag.Get("default")
