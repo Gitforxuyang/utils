@@ -1,6 +1,9 @@
 package utils
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestSortIdToLongId(t *testing.T) {
 	if id := SortIdToLongId(1); id != "000000000000000000000001" {
@@ -27,7 +30,7 @@ func TestStringToObjectId(t *testing.T) {
 }
 
 func TestStringToObjectIdError(t *testing.T) {
-	if id, err := StringToObjectId("abc"); err != nil && id == nil {
+	if id, err := StringToObjectId("ged"); err != nil && id == nil {
 		t.Error("success")
 	} else {
 		t.Log("err")
