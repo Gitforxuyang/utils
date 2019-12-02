@@ -18,7 +18,7 @@ import (
 //为实现了IEntity的struct设置默认值
 func Default(entity interface{}) error {
 	if reflect.ValueOf(entity).Kind() != reflect.Ptr {
-		errors.New("传入参数必须是指针类型")
+		return errors.New("传入参数必须是指针类型")
 	}
 	return setDefault(reflect.ValueOf(entity).Elem(), reflect.TypeOf(entity).Elem())
 }
@@ -27,7 +27,7 @@ func Default(entity interface{}) error {
 func setDefault(_value reflect.Value, _type reflect.Type) error {
 	//不能设置基础类型的指针默认值
 	if _type.Kind() != reflect.Struct {
-		errors.New("设置默认值的类型必须是struct")
+		return errors.New("设置默认值的类型必须是struct")
 	}
 	for i := 0; i < _value.NumField(); i++ {
 		if _value.Field(i).Kind() == reflect.Struct {
@@ -36,7 +36,7 @@ func setDefault(_value reflect.Value, _type reflect.Type) error {
 		}
 		if _value.Field(i).Kind() == reflect.Ptr {
 			if _value.Field(i).IsNil() {
-				errors.New("指针类型的属性不能为nil")
+				return errors.New("指针类型的属性不能为nil")
 			}
 			setDefault(_value.Field(i).Elem(), _value.Field(i).Type().Elem())
 			continue
