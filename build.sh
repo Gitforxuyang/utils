@@ -7,6 +7,12 @@ go test -v -coverprofile=./test/testReport.out
 go tool cover -html=./test/testReport.out -o=./test/testReport.html
 
 VERSION=$1
+if [! -n "$VERSION"];then
+    echo "请输入tab版本号";
+    exit 1;
+else
+    echo "tag版本号为$VERSION"
+fi;
 
 git add .
 git commit -m "fix:上传新版本"
