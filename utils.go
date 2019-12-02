@@ -7,8 +7,14 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 )
 
+//示例
+//	type Animal struct {
+//		Age int `default:"1"`  简单的设置默认值
+//		Time int `default:",NOW_SECOND()"`   设置函数默认值， NOW_SECOND()=秒 NOW_NANO()=毫秒
+//	}
 //为实现了IEntity的struct设置默认值
 func Default(entity interface{}) error {
 	if reflect.ValueOf(entity).Kind() != reflect.Ptr {
@@ -39,6 +45,21 @@ func setDefault(_value reflect.Value, _type reflect.Type) error {
 		if _default == "" {
 			continue
 		}
+		_defaultArr := strings.Split(_default, ",")
+		if len(_defaultArr) == 1 {
+			_default = _defaultArr[0]
+		} else {
+			//如果设置了预制函数则设置 NOW_SECOND()=当前时间秒数 NOW_NANO()=当前时间毫秒数
+			switch _defaultArr[1] {
+			case "NOW_SECOND()":
+				_value.Field(i).SetInt(time.Now().Unix())
+				break
+			case "NOW_NANO()":
+				_value.Field(i).SetInt(time.Now().UnixNano())
+				break
+			}
+		}
+
 		switch _value.Field(i).Kind() {
 		case reflect.Bool:
 			d, err := strconv.ParseBool(_default)
