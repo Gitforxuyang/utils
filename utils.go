@@ -171,7 +171,7 @@ func LongIdToSortId(longId string) (int64, error) {
 }
 
 func SortIdToLongId(sortId int64) string {
-	return fmt.Sprintf("%024s", sortId)
+	return fmt.Sprintf("%024d", sortId)
 }
 
 //字符串转化为objectId 如果字符串长度不够则自动补足24位
