@@ -61,6 +61,7 @@ func setDefault(_value reflect.Value, _type reflect.Type) error {
 				return errors.New("未知的内置默认函数")
 				break
 			}
+			continue
 		}
 
 		switch _value.Field(i).Kind() {
