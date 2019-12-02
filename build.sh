@@ -15,6 +15,7 @@ else
     exit 1;
 fi;
 
+git pull origin master
 git add .
 git commit -m "fix:上传新版本"
 git tag $VERSION
