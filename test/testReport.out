@@ -1,7 +1,7 @@
 mode: set
 github.com/Gitforxuyang/utils/utils.go:19.40,20.51 1 1
 github.com/Gitforxuyang/utils/utils.go:23.2,23.82 1 1
-github.com/Gitforxuyang/utils/utils.go:20.51,22.3 1 0
+github.com/Gitforxuyang/utils/utils.go:20.51,22.3 1 1
 github.com/Gitforxuyang/utils/utils.go:27.65,29.36 1 1
 github.com/Gitforxuyang/utils/utils.go:32.2,32.41 1 1
 github.com/Gitforxuyang/utils/utils.go:164.2,164.12 1 1
@@ -11,16 +11,16 @@ github.com/Gitforxuyang/utils/utils.go:37.3,37.44 1 1
 github.com/Gitforxuyang/utils/utils.go:44.3,45.21 2 1
 github.com/Gitforxuyang/utils/utils.go:48.3,49.28 2 1
 github.com/Gitforxuyang/utils/utils.go:67.3,67.33 1 1
-github.com/Gitforxuyang/utils/utils.go:33.47,35.12 2 0
-github.com/Gitforxuyang/utils/utils.go:37.44,38.31 1 0
-github.com/Gitforxuyang/utils/utils.go:41.4,42.12 2 0
-github.com/Gitforxuyang/utils/utils.go:38.31,40.5 1 0
+github.com/Gitforxuyang/utils/utils.go:33.47,35.12 2 1
+github.com/Gitforxuyang/utils/utils.go:37.44,38.31 1 1
+github.com/Gitforxuyang/utils/utils.go:41.4,42.12 2 1
+github.com/Gitforxuyang/utils/utils.go:38.31,40.5 1 1
 github.com/Gitforxuyang/utils/utils.go:45.21,46.12 1 0
 github.com/Gitforxuyang/utils/utils.go:49.28,51.4 1 1
-github.com/Gitforxuyang/utils/utils.go:51.9,53.26 1 0
-github.com/Gitforxuyang/utils/utils.go:64.4,64.12 1 0
-github.com/Gitforxuyang/utils/utils.go:54.24,56.10 2 0
-github.com/Gitforxuyang/utils/utils.go:57.23,59.10 2 0
+github.com/Gitforxuyang/utils/utils.go:51.9,53.26 1 1
+github.com/Gitforxuyang/utils/utils.go:64.4,64.12 1 1
+github.com/Gitforxuyang/utils/utils.go:54.24,56.10 2 1
+github.com/Gitforxuyang/utils/utils.go:57.23,59.10 2 1
 github.com/Gitforxuyang/utils/utils.go:60.12,62.10 2 0
 github.com/Gitforxuyang/utils/utils.go:68.21,70.18 2 1
 github.com/Gitforxuyang/utils/utils.go:73.4,74.9 2 1

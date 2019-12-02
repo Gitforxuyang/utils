@@ -54,7 +54,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/Gitforxuyang/utils/utils.go (71.4%)</option>
+				<option value="file0">github.com/Gitforxuyang/utils/utils.go (83.8%)</option>
 				
 				</select>
 			</div>
@@ -87,7 +87,7 @@ import (
 //        }
 //为实现了IEntity的struct设置默认值
 func Default(entity interface{}) error <span class="cov8" title="1">{
-        if reflect.ValueOf(entity).Kind() != reflect.Ptr </span><span class="cov0" title="0">{
+        if reflect.ValueOf(entity).Kind() != reflect.Ptr </span><span class="cov8" title="1">{
                 return errors.New("传入参数必须是指针类型")
         }</span>
         <span class="cov8" title="1">return setDefault(reflect.ValueOf(entity).Elem(), reflect.TypeOf(entity).Elem())</span>
@@ -100,15 +100,15 @@ func setDefault(_value reflect.Value, _type reflect.Type) error <span class="cov
                 return errors.New("设置默认值的类型必须是struct")
         }</span>
         <span class="cov8" title="1">for i := 0; i &lt; _value.NumField(); i++ </span><span class="cov8" title="1">{
-                if _value.Field(i).Kind() == reflect.Struct </span><span class="cov0" title="0">{
+                if _value.Field(i).Kind() == reflect.Struct </span><span class="cov8" title="1">{
                         setDefault(_value.Field(i), _value.Field(i).Type())
                         continue</span>
                 }
-                <span class="cov8" title="1">if _value.Field(i).Kind() == reflect.Ptr </span><span class="cov0" title="0">{
-                        if _value.Field(i).IsNil() </span><span class="cov0" title="0">{
+                <span class="cov8" title="1">if _value.Field(i).Kind() == reflect.Ptr </span><span class="cov8" title="1">{
+                        if _value.Field(i).IsNil() </span><span class="cov8" title="1">{
                                 return errors.New("指针类型的属性不能为nil")
                         }</span>
-                        <span class="cov0" title="0">setDefault(_value.Field(i).Elem(), _value.Field(i).Type().Elem())
+                        <span class="cov8" title="1">setDefault(_value.Field(i).Elem(), _value.Field(i).Type().Elem())
                         continue</span>
                 }
                 <span class="cov8" title="1">_default := _type.Field(i).Tag.Get("default")
@@ -118,20 +118,20 @@ func setDefault(_value reflect.Value, _type reflect.Type) error <span class="cov
                 <span class="cov8" title="1">_defaultArr := strings.Split(_default, ",")
                 if len(_defaultArr) == 1 </span><span class="cov8" title="1">{
                         _default = _defaultArr[0]
-                }</span> else<span class="cov0" title="0"> {
+                }</span> else<span class="cov8" title="1"> {
                         //如果设置了预制函数则设置 NOW_SECOND()=当前时间秒数 NOW_MILLI()=当前时间毫秒数
                         switch _defaultArr[1] </span>{
-                        case "NOW_SECOND()":<span class="cov0" title="0">
+                        case "NOW_SECOND()":<span class="cov8" title="1">
                                 _value.Field(i).SetInt(time.Now().Unix())
                                 break</span>
-                        case "NOW_MILLI()":<span class="cov0" title="0">
+                        case "NOW_MILLI()":<span class="cov8" title="1">
                                 _value.Field(i).SetInt(time.Now().UnixNano() / 1e6)
                                 break</span>
                         default:<span class="cov0" title="0">
                                 return errors.New("未知的内置默认函数")
                                 break</span>
                         }
-                        <span class="cov0" title="0">continue</span>
+                        <span class="cov8" title="1">continue</span>
                 }
 
                 <span class="cov8" title="1">switch _value.Field(i).Kind() </span>{

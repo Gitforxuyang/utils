@@ -1,40 +1,36 @@
 package utils
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestSortIdToLongId(t *testing.T) {
 	if id := SortIdToLongId(1); id != "000000000000000000000001" {
-		t.Error("转换错误")
+		t.Error("err")
 	} else {
-		t.Log("转换通过")
 	}
 }
 
 func TestLongIdToSortId(t *testing.T) {
 	if id, err := LongIdToSortId("000000000000000000000001"); err != nil || id != 1 {
-		t.Error("转换错误")
-	} else {
-		t.Log("转换通过")
+		t.Error("err")
 	}
 }
 
 func TestStringToObjectId(t *testing.T) {
 	if id, err := StringToObjectId("1"); err != nil || id.Hex() != "000000000000000000000001" {
-		t.Error("转换错误")
+		t.Error("err")
 	} else {
-		t.Log("success")
+	}
+
+	if id, err := StringToObjectId("ged"); err != nil && id == nil {
+	} else {
+		t.Error("err")
 	}
 }
 
-func TestStringToObjectIdError(t *testing.T) {
-	if id, err := StringToObjectId("ged"); err != nil && id == nil {
-		t.Error("success")
-	} else {
-		t.Log("err")
-	}
+type E struct {
+	Z int `default:"1"`
 }
 
 type Demo struct {
@@ -52,14 +48,27 @@ type Demo struct {
 	L float64 `default:"0.2"`
 	M string  `default:"str"`
 	N bool    `default:"true"`
+	O int64   `default:",NOW_SECOND()"`
+	P int64   `default:",NOW_MILLI()"`
+	Z E
+	Y *E
+}
+
+type DemoErr struct {
+	A *uint8 `default:"1"`
+	B *uint8 `default:"a"`
 }
 
 func TestDefault(t *testing.T) {
 	d := new(Demo)
-	if err := Default(d); err == nil {
-		t.Log("success")
-	} else {
-		fmt.Println(err)
+	d.Y = new(E)
+	if err := Default(d); err != nil {
+		t.Error("err")
+	}
+	if err := Default(*d); err == nil {
+		t.Error("err")
+	}
+	if err := Default(new(DemoErr)); err == nil {
 		t.Error("err")
 	}
 }
