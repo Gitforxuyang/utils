@@ -8,7 +8,7 @@ go tool cover -html=./test/testReport.out -o=./test/testReport.html
 
 VERSION=$1
 echo $VERSION
-if [! -n "$VERSION"];then
+if [ "$VERSION" ];then
     echo "请输入tab版本号";
     exit 1;
 else
