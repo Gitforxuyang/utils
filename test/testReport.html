@@ -54,26 +54,206 @@
 			<div id="nav">
 				<select id="files">
 				
+				<option value="file0">github.com/Gitforxuyang/utils/utils.go (7.6%)</option>
+				
 				</select>
 			</div>
 			<div id="legend">
 				<span>not tracked</span>
 			
-				<span class="cov0">no coverage</span>
-				<span class="cov1">low coverage</span>
-				<span class="cov2">*</span>
-				<span class="cov3">*</span>
-				<span class="cov4">*</span>
-				<span class="cov5">*</span>
-				<span class="cov6">*</span>
-				<span class="cov7">*</span>
-				<span class="cov8">*</span>
-				<span class="cov9">*</span>
-				<span class="cov10">high coverage</span>
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
 			
 			</div>
 		</div>
 		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package utils
+
+import (
+        "errors"
+        "fmt"
+        "go.mongodb.org/mongo-driver/bson/primitive"
+        "reflect"
+        "strconv"
+        "strings"
+        "time"
+)
+
+//示例
+//        type Animal struct {
+//                Age int `default:"1"`  简单的设置默认值
+//                Time int `default:",NOW_SECOND()"`   设置函数默认值， NOW_SECOND()=秒 NOW_MILLI()=毫秒
+//        }
+//为实现了IEntity的struct设置默认值
+func Default(entity interface{}) error <span class="cov0" title="0">{
+        if reflect.ValueOf(entity).Kind() != reflect.Ptr </span><span class="cov0" title="0">{
+                return errors.New("传入参数必须是指针类型")
+        }</span>
+        <span class="cov0" title="0">return setDefault(reflect.ValueOf(entity).Elem(), reflect.TypeOf(entity).Elem())</span>
+}
+
+//设置默认值函数
+func setDefault(_value reflect.Value, _type reflect.Type) error <span class="cov0" title="0">{
+        //不能设置基础类型的指针默认值
+        if _type.Kind() != reflect.Struct </span><span class="cov0" title="0">{
+                return errors.New("设置默认值的类型必须是struct")
+        }</span>
+        <span class="cov0" title="0">for i := 0; i &lt; _value.NumField(); i++ </span><span class="cov0" title="0">{
+                if _value.Field(i).Kind() == reflect.Struct </span><span class="cov0" title="0">{
+                        setDefault(_value.Field(i), _value.Field(i).Type())
+                        continue</span>
+                }
+                <span class="cov0" title="0">if _value.Field(i).Kind() == reflect.Ptr </span><span class="cov0" title="0">{
+                        if _value.Field(i).IsNil() </span><span class="cov0" title="0">{
+                                return errors.New("指针类型的属性不能为nil")
+                        }</span>
+                        <span class="cov0" title="0">setDefault(_value.Field(i).Elem(), _value.Field(i).Type().Elem())
+                        continue</span>
+                }
+                <span class="cov0" title="0">_default := _type.Field(i).Tag.Get("default")
+                if _default == "" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+                <span class="cov0" title="0">_defaultArr := strings.Split(_default, ",")
+                if len(_defaultArr) == 1 </span><span class="cov0" title="0">{
+                        _default = _defaultArr[0]
+                }</span> else<span class="cov0" title="0"> {
+                        //如果设置了预制函数则设置 NOW_SECOND()=当前时间秒数 NOW_MILLI()=当前时间毫秒数
+                        switch _defaultArr[1] </span>{
+                        case "NOW_SECOND()":<span class="cov0" title="0">
+                                _value.Field(i).SetInt(time.Now().Unix())
+                                break</span>
+                        case "NOW_MILLI()":<span class="cov0" title="0">
+                                _value.Field(i).SetInt(time.Now().UnixNano() / 1e6)
+                                break</span>
+                        default:<span class="cov0" title="0">
+                                return errors.New("未知的内置默认函数")
+                                break</span>
+                        }
+                        <span class="cov0" title="0">continue</span>
+                }
+
+                <span class="cov0" title="0">switch _value.Field(i).Kind() </span>{
+                case reflect.Bool:<span class="cov0" title="0">
+                        d, err := strconv.ParseBool(_default)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetBool(d)
+                        break</span>
+                case reflect.Int:<span class="cov0" title="0">
+                        d, err := strconv.ParseInt(_default, 10, 32)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetInt(d)
+                        break</span>
+                case reflect.Int8:<span class="cov0" title="0">
+                        d, err := strconv.ParseInt(_default, 10, 8)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetInt(d)
+                        break</span>
+                case reflect.Int16:<span class="cov0" title="0">
+                        d, err := strconv.ParseInt(_default, 10, 16)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetInt(d)
+                        break</span>
+                case reflect.Int32:<span class="cov0" title="0">
+                        d, err := strconv.ParseInt(_default, 10, 32)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetInt(d)
+                        break</span>
+                case reflect.Int64:<span class="cov0" title="0">
+                        d, err := strconv.ParseInt(_default, 10, 64)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetInt(d)
+                        break</span>
+                case reflect.Uint:<span class="cov0" title="0">
+                        d, err := strconv.ParseUint(_default, 10, 32)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetUint(d)
+                        break</span>
+                case reflect.Uint8:<span class="cov0" title="0">
+                        d, err := strconv.ParseUint(_default, 10, 8)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetUint(d)
+                        break</span>
+                case reflect.Uint16:<span class="cov0" title="0">
+                        d, err := strconv.ParseUint(_default, 10, 16)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetUint(d)
+                        break</span>
+                case reflect.Uint32:<span class="cov0" title="0">
+                        d, err := strconv.ParseUint(_default, 10, 32)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetUint(d)
+                        break</span>
+                case reflect.Uint64:<span class="cov0" title="0">
+                        d, err := strconv.ParseUint(_default, 10, 64)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetUint(d)
+                        break</span>
+                case reflect.Float32:<span class="cov0" title="0">
+                        d, err := strconv.ParseFloat(_default, 10)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetFloat(d)
+                        break</span>
+                case reflect.Float64:<span class="cov0" title="0">
+                        d, err := strconv.ParseFloat(_default, 10)
+                        if err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">_value.Field(i).SetFloat(d)
+                        break</span>
+                case reflect.String:<span class="cov0" title="0">
+                        _value.Field(i).SetString(_default)
+                        break</span>
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+//将长id转化为短id 类似于000000000000000062361472-&gt;62361472
+func LongIdToSortId(longId string) (int64, error) <span class="cov8" title="1">{
+        str := strings.TrimLeft(longId, "0")
+        return strconv.ParseInt(str, 10, 64)
+}</span>
+
+func SortIdToLongId(sortId int64) string <span class="cov8" title="1">{
+        return fmt.Sprintf("%024d", sortId)
+}</span>
+
+//字符串转化为objectId 如果字符串长度不够则自动补足24位
+func StringToObjectId(strId string) (*primitive.ObjectID, error) <span class="cov8" title="1">{
+        longId := fmt.Sprintf("%024s", strId)
+        objId, err := primitive.ObjectIDFromHex(longId)
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+        <span class="cov8" title="1">return &amp;objId, nil</span>
+}
+</pre>
 		
 		</div>
 	</body>
