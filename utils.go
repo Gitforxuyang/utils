@@ -13,7 +13,7 @@ import (
 //示例
 //	type Animal struct {
 //		Age int `default:"1"`  简单的设置默认值
-//		Time int `default:",NOW_SECOND()"`   设置函数默认值， NOW_SECOND()=秒 NOW_NANO()=毫秒
+//		Time int `default:",NOW_SECOND()"`   设置函数默认值， NOW_SECOND()=秒 NOW_MILLI()=毫秒
 //	}
 //为实现了IEntity的struct设置默认值
 func Default(entity interface{}) error {
@@ -49,13 +49,16 @@ func setDefault(_value reflect.Value, _type reflect.Type) error {
 		if len(_defaultArr) == 1 {
 			_default = _defaultArr[0]
 		} else {
-			//如果设置了预制函数则设置 NOW_SECOND()=当前时间秒数 NOW_NANO()=当前时间毫秒数
+			//如果设置了预制函数则设置 NOW_SECOND()=当前时间秒数 NOW_MILLI()=当前时间毫秒数
 			switch _defaultArr[1] {
 			case "NOW_SECOND()":
 				_value.Field(i).SetInt(time.Now().Unix())
 				break
-			case "NOW_NANO()":
-				_value.Field(i).SetInt(time.Now().UnixNano())
+			case "NOW_MILLI()":
+				_value.Field(i).SetInt(time.Now().UnixNano() / 1e6)
+				break
+			default:
+				return errors.New("未知的内置默认函数")
 				break
 			}
 		}
