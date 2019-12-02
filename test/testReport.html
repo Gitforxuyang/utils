@@ -54,7 +54,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/Gitforxuyang/utils/utils.go (1.0%)</option>
+				<option value="file0">github.com/Gitforxuyang/utils/utils.go (6.7%)</option>
 				
 				</select>
 			</div>
@@ -235,7 +235,7 @@ func setDefault(_value reflect.Value, _type reflect.Type) error <span class="cov
 }
 
 //将长id转化为短id 类似于000000000000000062361472-&gt;62361472
-func LongIdToSortId(longId string) (int64, error) <span class="cov0" title="0">{
+func LongIdToSortId(longId string) (int64, error) <span class="cov8" title="1">{
         str := strings.TrimLeft(longId, "0")
         return strconv.ParseInt(str, 10, 64)
 }</span>
@@ -245,13 +245,13 @@ func SortIdToLongId(sortId int64) string <span class="cov8" title="1">{
 }</span>
 
 //字符串转化为objectId 如果字符串长度不够则自动补足24位
-func StringToObjectId(strId string) (*primitive.ObjectID, error) <span class="cov0" title="0">{
+func StringToObjectId(strId string) (*primitive.ObjectID, error) <span class="cov8" title="1">{
         longId := fmt.Sprintf("%024s", strId)
         objId, err := primitive.ObjectIDFromHex(longId)
         if err != nil </span><span class="cov0" title="0">{
                 return nil, err
         }</span>
-        <span class="cov0" title="0">return &amp;objId, nil</span>
+        <span class="cov8" title="1">return &amp;objId, nil</span>
 }
 </pre>
 		
