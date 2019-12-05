@@ -183,3 +183,28 @@ func StringToObjectId(strId string) (*primitive.ObjectID, error) {
 	}
 	return &objId, nil
 }
+
+//只能支持基础类型数组或切片使用 不支持基础类型的指针
+func Includes(arr interface{}, value interface{}) (bool, error) {
+	arrKind := reflect.TypeOf(arr).Kind()
+	valueKind := reflect.TypeOf(value).Kind()
+	//如果是传递过来的是指针 则拿到指针的具体类型
+	if arrKind == reflect.Ptr || valueKind == reflect.Ptr {
+		return false, errors.New("不能传入指针类型")
+	}
+	//_value := reflect.ValueOf(value)
+	_arr := reflect.ValueOf(arr)
+	switch arrKind {
+	case reflect.Array:
+	case reflect.Slice:
+		for i := 0; i < _arr.Len(); i++ {
+			if reflect.DeepEqual(value, _arr.Index(i).Interface()) {
+				return true, nil
+			}
+		}
+		break
+	default:
+		return false, nil
+	}
+	return false, nil
+}

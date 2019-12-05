@@ -72,3 +72,21 @@ func TestDefault(t *testing.T) {
 		t.Error("err")
 	}
 }
+
+func TestIncludes(t *testing.T) {
+	arr := make([]string, 0, 10)
+	arr = append(arr, "123")
+	if isInclude, err := Includes(arr, "123"); err != nil || isInclude != true {
+		t.Error("err")
+	}
+	if _, err := Includes(&arr, "123"); err == nil {
+		t.Error("err")
+	}
+	if isInclude, err := Includes(arr, "1231"); err != nil || isInclude == true {
+		t.Error("err")
+	}
+	if isInclude, err := Includes("", "1231"); err != nil || isInclude == true {
+		t.Error("err")
+	}
+
+}
