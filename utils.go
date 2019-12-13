@@ -3,6 +3,7 @@ package utils
 import (
 	"errors"
 	"fmt"
+	"github.com/satori/go.uuid"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"reflect"
 	"strconv"
@@ -207,4 +208,15 @@ func Includes(arr interface{}, value interface{}) (bool, error) {
 		return false, nil
 	}
 	return false, nil
+}
+
+func GetUUIDStr() string{
+	uuid:=uuid.NewV4()
+	return uuid.String()
+}
+//获取没有 破折号的 UUID
+func GetNoDashUUIDStr() string{
+	uuid:=uuid.NewV4()
+	str:=strings.ReplaceAll(uuid.String(),"-","")
+	return str
 }

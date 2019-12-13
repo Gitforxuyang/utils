@@ -90,3 +90,12 @@ func TestIncludes(t *testing.T) {
 	}
 
 }
+
+func TestGetUUIDStr(t *testing.T) {
+	str:=GetUUIDStr()
+	t.Log(str)
+}
+func TestGetNoDashUUIDStr(t *testing.T) {
+	str:=GetNoDashUUIDStr()
+	t.Log(str)
+}
