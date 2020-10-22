@@ -92,10 +92,18 @@ func TestIncludes(t *testing.T) {
 }
 
 func TestGetUUIDStr(t *testing.T) {
-	str:=GetUUIDStr()
+	str := GetUUIDStr()
 	t.Log(str)
 }
 func TestGetNoDashUUIDStr(t *testing.T) {
-	str:=GetNoDashUUIDStr()
+	str := GetNoDashUUIDStr()
 	t.Log(str)
+}
+func TestGetFixed(t *testing.T) {
+	f, err := GetFixed(123.123)
+	if err != nil {
+		t.Error(err)
+	} else {
+		t.Log(f)
+	}
 }

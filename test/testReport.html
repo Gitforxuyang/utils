@@ -54,7 +54,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/Gitforxuyang/utils/utils.go (86.1%)</option>
+				<option value="file0">github.com/Gitforxuyang/utils/utils.go (85.6%)</option>
 				
 				</select>
 			</div>
@@ -280,16 +280,37 @@ func Includes(arr interface{}, value interface{}) (bool, error) <span class="cov
         <span class="cov8" title="1">return false, nil</span>
 }
 
-func GetUUIDStr() string<span class="cov8" title="1">{
-        uuid:=uuid.NewV4()
+func GetUUIDStr() string <span class="cov8" title="1">{
+        uuid := uuid.NewV4()
         return uuid.String()
 }</span>
+
 //获取没有 破折号的 UUID
-func GetNoDashUUIDStr() string<span class="cov8" title="1">{
-        uuid:=uuid.NewV4()
-        str:=strings.ReplaceAll(uuid.String(),"-","")
+func GetNoDashUUIDStr() string <span class="cov8" title="1">{
+        uuid := uuid.NewV4()
+        str := strings.ReplaceAll(uuid.String(), "-", "")
         return str
-}</pre>
+}</span>
+
+func GetFixed(value interface{}) (float64, error) <span class="cov8" title="1">{
+        switch reflect.TypeOf(value).Kind() </span>{
+        case reflect.Uint:<span class="cov0" title="0"></span>
+        case reflect.Uint8:<span class="cov0" title="0"></span>
+        case reflect.Uint16:<span class="cov0" title="0"></span>
+        case reflect.Uint32:<span class="cov0" title="0"></span>
+        case reflect.Uint64:<span class="cov0" title="0"></span>
+        case reflect.Int:<span class="cov8" title="1"></span>
+        case reflect.Int8:<span class="cov0" title="0"></span>
+        case reflect.Int16:<span class="cov0" title="0"></span>
+        case reflect.Int32:<span class="cov0" title="0"></span>
+        case reflect.Int64:<span class="cov0" title="0"></span>
+        case reflect.Float32:<span class="cov0" title="0"></span>
+        case reflect.Float64:<span class="cov0" title="0">
+                return strconv.ParseFloat(fmt.Sprintf("%.2f", value), 64)</span>
+        }
+        <span class="cov8" title="1">return 0, errors.New("不支持的类型")</span>
+}
+</pre>
 		
 		</div>
 	</body>

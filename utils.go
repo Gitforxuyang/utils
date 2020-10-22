@@ -210,13 +210,25 @@ func Includes(arr interface{}, value interface{}) (bool, error) {
 	return false, nil
 }
 
-func GetUUIDStr() string{
-	uuid:=uuid.NewV4()
+func GetUUIDStr() string {
+	uuid := uuid.NewV4()
 	return uuid.String()
 }
+
 //获取没有 破折号的 UUID
-func GetNoDashUUIDStr() string{
-	uuid:=uuid.NewV4()
-	str:=strings.ReplaceAll(uuid.String(),"-","")
+func GetNoDashUUIDStr() string {
+	uuid := uuid.NewV4()
+	str := strings.ReplaceAll(uuid.String(), "-", "")
 	return str
+}
+
+func GetFixed(value interface{}) (float64, error) {
+	switch reflect.TypeOf(value).Kind() {
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+		reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return strconv.ParseFloat(fmt.Sprintf("%d", value), 64)
+	case reflect.Float32, reflect.Float64:
+		return strconv.ParseFloat(fmt.Sprintf("%.2f", value), 64)
+	}
+	return 0, errors.New("不支持的类型")
 }
